@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Office & Business Automation Suite</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow">
+                    ⚡
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 leading-tight">Daily Office Automation Suite</h1>
+                    <p class="text-xs text-slate-500">GST Invoice • Excel Converter • PowerPoint Generator</p>
+                </div>
+            </div>
+            <span class="text-xs bg-emerald-100 text-emerald-800 font-semibold px-2.5 py-1 rounded-full border border-emerald-200">
+                100% Ready
+            </span>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        
+        <!-- Navigation Tabs -->
+        <div class="flex space-x-2 overflow-x-auto border-b border-slate-200 mb-8 bg-white p-2 rounded-xl shadow-sm">
+            <button onclick="switchTab('gst-calc')" id="tab-gst-calc" class="tab-btn flex-1 min-w-max whitespace-nowrap py-3 px-4 text-sm font-semibold rounded-lg text-blue-600 bg-blue-50 transition-all flex items-center justify-center space-x-2">
+                <span>📊</span>
+                <span>GST Calculator</span>
+            </button>
+            <button onclick="switchTab('gst-invoice')" id="tab-gst-invoice" class="tab-btn flex-1 min-w-max whitespace-nowrap py-3 px-4 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all flex items-center justify-center space-x-2">
+                <span>🧾</span>
+                <span>GST Invoice Maker</span>
+            </button>
+            <button onclick="switchTab('excel-conv')" id="tab-excel-conv" class="tab-btn flex-1 min-w-max whitespace-nowrap py-3 px-4 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all flex items-center justify-center space-x-2">
+                <span>📑</span>
+                <span>Data to Excel</span>
+            </button>
+            <button onclick="switchTab('ppt-gen')" id="tab-ppt-gen" class="tab-btn flex-1 min-w-max whitespace-nowrap py-3 px-4 text-sm font-semibold rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all flex items-center justify-center space-x-2">
+                <span>📽️</span>
+                <span>PowerPoint Maker</span>
+            </button>
+        </div>
+
+        <!-- 1. GST Calculator Tab -->
+        <section id="content-gst-calc" class="tab-content block">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Input Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center space-x-2">
+                        <span>💰</span>
+                        <span>Calculate GST Amount</span>
+                    </h2>
+                    <form id="gstForm" onsubmit="calculateGST(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Taxable Amount (₹)</label>
+                            <input type="number" step="0.01" id="gstAmount" required placeholder="e.g. 50000" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">GST Rate (%)</label>
+                            <select id="gstRate" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-900">
+                                <option value="5">5% (Essential Goods/Services)</option>
+                                <option value="12">12% (Standard Low)</option>
+                                <option value="18" selected>18% (Standard Services/Goods)</option>
+                                <option value="28">28% (Luxury/Demerit)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Transaction Type</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="tax_type" value="intra" checked class="text-blue-600">
+                                    <span class="ml-2 text-xs font-medium text-slate-700">Intra-State (CGST + SGST)</span>
+                                </label>
+                                <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-slate-50">
+                                    <input type="radio" name="tax_type" value="inter" class="text-blue-600">
+                                    <span class="ml-2 text-xs font-medium text-slate-700">Inter-State (IGST)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition">
+                            Calculate GST Now
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Result Card -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900 mb-4 flex items-center space-x-2">
+                            <span>📋</span>
+                            <span>Tax Calculation Breakdown</span>
+                        </h2>
+                        <div class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm">
+                            <div class="flex justify-between py-1 border-b border-slate-200">
+                                <span class="text-slate-600">Base Taxable Value:</span>
+                                <span id="resTaxable" class="font-bold text-slate-900">₹0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-200">
+                                <span class="text-slate-600">Applicable GST Rate:</span>
+                                <span id="resRate" class="font-semibold text-slate-900">18%</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-200">
+                                <span class="text-slate-600">CGST (Central):</span>
+                                <span id="resCgst" class="font-semibold text-slate-900">₹0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-200">
+                                <span class="text-slate-600">SGST (State):</span>
+                                <span id="resSgst" class="font-semibold text-slate-900">₹0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-200">
+                                <span class="text-slate-600">IGST (Integrated):</span>
+                                <span id="resIgst" class="font-semibold text-slate-900">₹0.00</span>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-200">
+                                <span class="text-slate-600">Total Tax Amount:</span>
+                                <span id="resTaxTotal" class="font-bold text-blue-600">₹0.00</span>
+                            </div>
+                            <div class="flex justify-between py-2 bg-blue-100/60 px-3 rounded-lg mt-3">
+                                <span class="font-bold text-slate-900">Grand Total:</span>
+                                <span id="resGrandTotal" class="font-bold text-blue-900 text-base">₹0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-800">
+                        💡 Tip: Switch to the <strong>GST Invoice Maker</strong> tab to instantly export a formatted Excel tax invoice with client details.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. GST Invoice Maker Tab -->
+        <section id="content-gst-invoice" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-base font-bold text-slate-900">Generate Professional GST Excel Invoice</h2>
+                        <p class="text-xs text-slate-500">Auto-formats formulas, clean borders, and tax summary into a ready-to-print .xlsx file</p>
+                    </div>
+                </div>
+                <form id="invoiceForm" onsubmit="generateInvoice(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Customer / Client Name</label>
+                            <input type="text" id="invClient" required placeholder="e.g. Ramesh Trading Co." class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Invoice Number</label>
+                            <input type="text" id="invNo" required placeholder="e.g. INV-2026-001" class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Invoice Date</label>
+                            <input type="date" id="invDate" required class="w-full px-4 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs font-bold text-slate-700 uppercase">Invoice Line Items</label>
+                            <button type="button" onclick="addInvoiceRow()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold px-3 py-1.5 rounded-lg border border-slate-300 transition">
+                                + Add Another Item
+                            </button>
+                        </div>
+                        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                            <table class="w-full text-left text-sm" id="itemsTable">
+                                <thead class="bg-slate-50 text-slate-700 text-xs font-semibold uppercase border-b border-slate-200">
+                                    <tr>
+                                        <th class="p-3">Item Description</th>
+                                        <th class="p-3 w-24">Qty</th>
+                                        <th class="p-3 w-32">Rate (₹)</th>
+                                        <th class="p-3 w-28">GST %</th>
+                                        <th class="p-3 w-16">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200" id="itemsBody">
+                                    <tr>
+                                        <td class="p-2"><input type="text" class="w-full px-3 py-1.5 border rounded text-sm item-desc" placeholder="Product / Service Description" required value="Consulting & Technical Services"></td>
+                                        <td class="p-2"><input type="number" class="w-full px-3 py-1.5 border rounded text-sm item-qty" min="1" value="1" required></td>
+                                        <td class="p-2"><input type="number" class="w-full px-3 py-1.5 border rounded text-sm item-rate" min="0" step="0.01" value="25000" required></td>
+                                        <td class="p-2">
+                                            <select class="w-full px-3 py-1.5 border rounded text-sm item-gst">
+                                                <option value="5">5%</option>
+                                                <option value="12">12%</option>
+                                                <option value="18" selected>18%</option>
+                                                <option value="28">28%</option>
+                                            </select>
+                                        </td>
+                                        <td class="p-2 text-center text-slate-400">Fixed</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="invoiceSubmitBtn" class="py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition flex items-center space-x-2">
+                        <span>📥</span>
+                        <span>Generate & Download Excel Invoice (.xlsx)</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. Data to Excel Converter Tab -->
+        <section id="content-excel-conv" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-2xl mx-auto">
+                <div class="text-center mb-6">
+                    <span class="text-3xl">📑</span>
+                    <h2 class="text-lg font-bold text-slate-900 mt-2">Convert Any File or Data to Styled Excel</h2>
+                    <p class="text-xs text-slate-500 mt-1">Upload CSV, JSON, or text file. It will auto-format headers and column widths.</p>
+                </div>
+                <form id="convertForm" onsubmit="uploadAndConvert(event)" class="space-y-6">
+                    <div class="border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center hover:bg-slate-50 transition cursor-pointer" onclick="document.getElementById('uploadFile').click()">
+                        <input type="file" id="uploadFile" required accept=".csv,.json,.txt" class="hidden" onchange="showFileName(this)">
+                        <div id="uploadPrompt">
+                            <span class="text-3xl text-slate-400">⬆️</span>
+                            <p class="text-sm font-semibold text-slate-700 mt-2">Click to select file or drag & drop</p>
+                            <p class="text-xs text-slate-400 mt-1">Supports CSV, JSON, TXT files (up to 20MB)</p>
+                        </div>
+                        <div id="fileSelected" class="hidden">
+                            <p class="text-sm font-bold text-blue-600" id="selectedFileName"></p>
+                            <p class="text-xs text-slate-500 mt-1">Ready to convert</p>
+                        </div>
+                    </div>
+                    <button type="submit" id="convertBtn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition flex items-center justify-center space-x-2">
+                        <span>⚡</span>
+                        <span>Convert & Download Styled Excel (.xlsx)</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 4. PowerPoint Deck Generator Tab -->
+        <section id="content-ppt-gen" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-3xl mx-auto">
+                <div class="mb-6">
+                    <h2 class="text-base font-bold text-slate-900">Automated PowerPoint (.pptx) Presentation Maker</h2>
+                    <p class="text-xs text-slate-500">Provide presentation title and outline. Automatically formats into a 16:9 widescreen presentation.</p>
+                </div>
+                <form id="pptForm" onsubmit="generatePPT(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Presentation Title</label>
+                            <input type="text" id="pptTitle" required placeholder="e.g. Annual Business Growth Plan" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 uppercase mb-1">Subtitle / Author</label>
+                            <input type="text" id="pptSubtitle" placeholder="e.g. Prepared for Board of Directors - 2026" class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase">Slide Topics & Bullet Points</label>
+                            <span class="text-xs text-slate-400">Separate each slide with a blank line</span>
+                        </div>
+                        <textarea id="pptContent" rows="8" required class="w-full p-4 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm font-mono" placeholder="Executive Summary
+- Strong market expansion across tier-2 cities
+- 35% growth in digital client acquisitions
+- Total quarterly revenue crossed 1.2 Crore
+
+Strategic Goals
+- Launch AI-powered analytics tools by Q4
+- Optimize supply chain to reduce turnaround time
+- Expand sales force in key metropolitan areas"></textarea>
+                    </div>
+
+                    <button type="submit" id="pptBtn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow transition flex items-center justify-center space-x-2">
+                        <span>📽️</span>
+                        <span>Generate & Download PowerPoint (.pptx)</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Client-side Logic Script -->
+    <script>
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-blue-600');
+                btn.classList.add('text-slate-600');
+            });
+            document.getElementById(`content-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.add('bg-blue-50', 'text-blue-600');
+            activeBtn.classList.remove('text-slate-600');
+        }
+
+        // Set today's date for invoice
+        document.getElementById('invDate').valueAsDate = new Date();
+
+        // 1. GST Calculator AJAX
+        async function calculateGST(e) {
+            e.preventDefault();
+            const amount = document.getElementById('gstAmount').value;
+            const rate = document.getElementById('gstRate').value;
+            const taxType = document.querySelector('input[name="tax_type"]:checked').value;
+
+            const formData = new FormData();
+            formData.append('amount', amount);
+            formData.append('rate', rate);
+            formData.append('tax_type', taxType);
+
+            try {
+                const res = await fetch('/api/gst/calculate', { method: 'POST', body: formData });
+                const data = await res.json();
+                document.getElementById('resTaxable').innerText = '₹' + data.taxable_amount;
+                document.getElementById('resRate').innerText = data.gst_rate;
+                document.getElementById('resCgst').innerText = '₹' + data.cgst;
+                document.getElementById('resSgst').innerText = '₹' + data.sgst;
+                document.getElementById('resIgst').innerText = '₹' + data.igst;
+                document.getElementById('resTaxTotal').innerText = '₹' + data.total_tax;
+                document.getElementById('resGrandTotal').innerText = '₹' + data.grand_total;
+            } catch (err) {
+                alert('Error calculating GST: ' + err);
+            }
+        }
+
+        // 2. Add Invoice Row
+        function addInvoiceRow() {
+            const body = document.getElementById('itemsBody');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="p-2"><input type="text" class="w-full px-3 py-1.5 border rounded text-sm item-desc" placeholder="Item / Service description" required></td>
+                <td class="p-2"><input type="number" class="w-full px-3 py-1.5 border rounded text-sm item-qty" min="1" value="1" required></td>
+                <td class="p-2"><input type="number" class="w-full px-3 py-1.5 border rounded text-sm item-rate" min="0" step="0.01" value="1000" required></td>
+                <td class="p-2">
+                    <select class="w-full px-3 py-1.5 border rounded text-sm item-gst">
+                        <option value="5">5%</option>
+                        <option value="12">12%</option>
+                        <option value="18" selected>18%</option>
+                        <option value="28">28%</option>
+                    </select>
+                </td>
+                <td class="p-2 text-center"><button type="button" onclick="this.closest('tr').remove()" class="text-rose-600 hover:text-rose-800 text-xs font-bold">Remove</button></td>
+            `;
+            body.appendChild(tr);
+        }
+
+        // Generate Invoice (.xlsx) Download
+        async function generateInvoice(e) {
+            e.preventDefault();
+            const btn = document.getElementById('invoiceSubmitBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "<span>⏳ Generating Excel...</span>";
+            btn.disabled = true;
+
+            const client = document.getElementById('invClient').value;
+            const invNo = document.getElementById('invNo').value;
+            const invDate = document.getElementById('invDate').value;
+
+            const rows = document.querySelectorAll('#itemsBody tr');
+            const items = [];
+            rows.forEach(r => {
+                const desc = r.querySelector('.item-desc').value;
+                const qty = r.querySelector('.item-qty').value;
+                const rate = r.querySelector('.item-rate').value;
+                const gst = r.querySelector('.item-gst').value;
+                items.push({ desc, qty, rate, gst });
+            });
+
+            const formData = new FormData();
+            formData.append('client_name', client);
+            formData.append('invoice_no', invNo);
+            formData.append('invoice_date', invDate);
+            formData.append('items_json', JSON.stringify(items));
+
+            try {
+                const res = await fetch('/api/gst/generate-invoice', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Generation failed');
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Invoice_${invNo}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } catch (err) {
+                alert('Error creating invoice: ' + err);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // 3. File Selected Indicator
+        function showFileName(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('uploadPrompt').classList.add('hidden');
+                document.getElementById('fileSelected').classList.remove('hidden');
+                document.getElementById('selectedFileName').innerText = input.files[0].name;
+            }
+        }
+
+        // Convert file to Excel (.xlsx) Download
+        async function uploadAndConvert(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('uploadFile');
+            if (!fileInput.files.length) return alert('Please select a file');
+
+            const btn = document.getElementById('convertBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "<span>⏳ Converting File...</span>";
+            btn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const res = await fetch('/api/convert/to-excel', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Conversion failed');
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${fileInput.files[0].name.split('.')[0]}_converted.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } catch (err) {
+                alert('Error converting file: ' + err);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // 4. Generate PPTX Download
+        async function generatePPT(e) {
+            e.preventDefault();
+            const btn = document.getElementById('pptBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "<span>⏳ Creating Presentation...</span>";
+            btn.disabled = true;
+
+            const title = document.getElementById('pptTitle').value;
+            const subtitle = document.getElementById('pptSubtitle').value;
+            const content = document.getElementById('pptContent').value;
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('subtitle', subtitle);
+            formData.append('slides_content', content);
+
+            try {
+                const res = await fetch('/api/presentation/generate', { method: 'POST', body: formData });
+                if (!res.ok) throw new Error('Presentation generation failed');
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${title.replace(/\s+/g, '_')}.pptx`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            } catch (err) {
+                alert('Error creating presentation: ' + err);
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
